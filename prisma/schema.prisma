@@ -1,0 +1,63 @@
+// Dado que PlanetScale no soporta fk se debe agregar una feature y decirle a prisma que los simule
+//  @@index([authorId]) hacer indexes para simular completamenta las fk
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma" // para lo de las fk
+}
+
+model Movie {
+  id       String  @id @default(uuid())
+  title    String
+  year     Int
+  director String
+  duration Int
+  poster   String? @unique
+  rate     Float
+  genre    Genre[]
+  auidence User[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Genre {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  movies Movie[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model User {
+  id        String  @id @default(uuid())
+  name      String
+  email     String  @unique
+  password  String
+  number    String  @unique
+  role      Role    @default(USER)
+  favorites Movie[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+// "id": "dcdd0fad-a94c-4810-8acc-5f108d3b18c3",
+// "title": "The Shawshank Redemption",
+// "year": 1994,
+// "director": "Frank Darabont",
+// "duration": 142,
+// "poster": "https://i.ebayimg.com/images/g/4goAAOSwMyBe7hnQ/s-l1200.webp",
+// "genre": ["Drama"],
+// "rate": 9.3
