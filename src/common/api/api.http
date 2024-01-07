@@ -10,6 +10,5 @@ Content-Type: application/json
     "year": 1972,
     "director": "Francis Ford Coppola",
     "duration": 120,
-    "rate": 9.2,
+    "rate": 9.2
 }
-
