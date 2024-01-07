@@ -86,7 +86,7 @@
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
-               <div class="content injectable">
+               <div class="content class">
                    <div class="content-data">
 
 
@@ -96,9 +96,13 @@
 
 
 
+
+
+
+
 <ol class="breadcrumb">
-  <li class="breadcrumb-item">Injectables</li>
-  <li class="breadcrumb-item" >MoviesService</li>
+  <li class="breadcrumb-item">Classes</li>
+  <li class="breadcrumb-item" >ZodValidationPipe</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -122,11 +126,18 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/movies/movies.service.ts</code>
+            <code>src/common/pipes/validation.pipe.ts</code>
         </p>
 
 
 
+
+            <p class="comment">
+                <h3>Implements</h3>
+            </p>
+            <p class="comment">
+                        <code>PipeTransform</code>
+            </p>
 
 
             <section data-compodoc="block-index">
@@ -143,16 +154,7 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Async</span>
-                                <a href="#create" >create</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Async</span>
-                                <a href="#findAll" >findAll</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Async</span>
-                                <a href="#findOne" >findOne</a>
+                                <a href="#transform" >transform</a>
                             </li>
                         </ul>
                     </td>
@@ -172,12 +174,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(prisma: <a href="../injectables/PrismaService.html" target="_self">PrismaService</a>)</code>
+<code>constructor(schema: ZodSchema)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">src/movies/movies.service.ts:7</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="4" class="link-to-prism">src/common/pipes/validation.pipe.ts:4</a></div>
                             </td>
                         </tr>
 
@@ -195,10 +197,10 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>prisma</td>
+                                                        <td>schema</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/PrismaService.html" target="_self" >PrismaService</a></code>
+                                                                    <code>ZodSchema</code>
                                                         </td>
                                                   
                                                     <td>
@@ -215,6 +217,7 @@
         </table>
 </section>
 
+
             <section data-compodoc="block-methods">
     
     <h3 id="methods">
@@ -224,26 +227,24 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="create"></a>
+                    <a name="transform"></a>
                     <span class="name">
-                            <span class="modifier">Async</span>
-                        <span ><b>create</b></span>
-                        <a href="#create"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>transform</b></span>
+                        <a href="#transform"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>create(data: Prisma.MovieCreateInput)</code>
+<code>transform(value)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="49"
-                                    class="link-to-prism">src/movies/movies.service.ts:49</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="7"
+                                    class="link-to-prism">src/common/pipes/validation.pipe.ts:7</a></div>
                         </td>
                     </tr>
 
@@ -258,16 +259,12 @@
                                     <thead>
                                         <tr>
                                             <td>Name</td>
-                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                                <td>data</td>
-                                            <td>
-                                                        <code>Prisma.MovieCreateInput</code>
-                                            </td>
+                                                <td>value</td>
 
                                             <td>
                                                     No
@@ -279,145 +276,7 @@
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>    <code>Promise&lt;Movie&gt;</code>
-
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="findAll"></a>
-                    <span class="name">
-                            <span class="modifier">Async</span>
-                        <span ><b>findAll</b></span>
-                        <a href="#findAll"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>findAll(params: literal type)</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="11"
-                                    class="link-to-prism">src/movies/movies.service.ts:11</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>params</td>
-                                            <td>
-                                                        <code>literal type</code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Promise&lt;Movie[]&gt;</code>
-
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="findOne"></a>
-                    <span class="name">
-                            <span class="modifier">Async</span>
-                        <span ><b>findOne</b></span>
-                        <a href="#findOne"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>findOne(movieWhereUniqueInput: Prisma.MovieWhereUniqueInput)</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="35"
-                                    class="link-to-prism">src/movies/movies.service.ts:35</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>movieWhereUniqueInput</td>
-                                            <td>
-                                                        <code>Prisma.MovieWhereUniqueInput</code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Promise&lt;Movie | null&gt;</code>
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
                         </div>
                             <div class="io-description">
@@ -429,77 +288,33 @@
     </table>
 </section>
 
+
+
+
+
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;;
-import { PrismaService } from &#x27;src/prisma/prisma.service&#x27;;
-import { Movie, Prisma } from &#x27;@prisma/client&#x27;;
-import { to } from &#x27;src/utils/to&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PipeTransform, BadRequestException } from &#x27;@nestjs/common&#x27;;
+import { ZodSchema } from &#x27;zod&#x27;;
 
-@Injectable()
-export class MoviesService {
-  constructor(private prisma: PrismaService) {}
+export class ZodValidationPipe implements PipeTransform {
+  constructor(private schema: ZodSchema) {}
 
-  // get all movies
-  async findAll(params: {
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.MovieWhereUniqueInput;
-    where?: Prisma.MovieWhereInput;
-    orderBy?: Prisma.MovieOrderByWithRelationInput;
-  }): Promise&lt;Movie[]&gt; {
-    const { skip, take, cursor, where, orderBy } &#x3D; params;
-
-    const [movies, error] &#x3D; await to(
-      this.prisma.movie.findMany({
-        skip,
-        take,
-        cursor,
-        where,
-        orderBy,
-      }),
-    );
-    if (error) throw new Error(String(error));
-
-    return movies;
-  }
-
-  // get one movie by id
-  async findOne(
-    movieWhereUniqueInput: Prisma.MovieWhereUniqueInput,
-  ): Promise&lt;Movie | null&gt; {
-    const [movie, error] &#x3D; await to(
-      this.prisma.movie.findUnique({
-        where: movieWhereUniqueInput,
-      }),
-    );
-    if (error) throw new Error(String(error));
-
-    return movie;
-  }
-
-  // create a movie
-  async create(data: Prisma.MovieCreateInput): Promise&lt;Movie&gt; {
-    const [createdMovie, error] &#x3D; await to(
-      this.prisma.movie.create({
-        data,
-      }),
-    );
-    if (error) throw new Error(String(error));
-
-    return createdMovie;
+  transform(value: unknown) {
+    try {
+      const parsedValue &#x3D; this.schema.parse(value);
+      return parsedValue;
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException(&#x27;Validation failed&#x27;);
+    }
   }
 }
 </code></pre>
     </div>
-
 </div>
-
-
-
-
 
 
 
@@ -534,8 +349,8 @@ export class MoviesService {
 
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
-            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
-            var COMPODOC_CURRENT_PAGE_URL = 'MoviesService.html';
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'ZodValidationPipe.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
