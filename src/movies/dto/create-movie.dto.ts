@@ -1,4 +1,7 @@
 import { z } from 'zod';
-import { createMovieSchema } from 'src/movies/dto/schema/base-movie.schema';
+import { createMovieSchema } from './schema/base-movie.schema';
+import { createGenreSchema } from './genre/base-genre.schema';
 
-export type CreateMovieDto = z.infer<typeof createMovieSchema>;
+export const combinedSchema = createMovieSchema.merge(createGenreSchema);
+
+export type CreateMovieDto = z.infer<typeof combinedSchema>;

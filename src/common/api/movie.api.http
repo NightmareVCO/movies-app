@@ -1,0 +1,49 @@
+### obtener todas las peliculas
+GET http://localhost:3000/movies
+
+### agregar una pelicula
+POST http://localhost:3000/movies
+Content-Type: application/json
+
+{
+    "title": "The Godfather",
+    "year": 1972,
+    "director": "Francis Ford Coppola",
+    "duration": 120,
+    "rate": 9.2,
+    "poster": null,
+    "genres": [
+        "Crime",
+        "Drama"
+    ]
+}
+
+### obtener una pelicula por su id
+GET http://localhost:3000/movies/520ae67b-2bdb
+
+### actualizar una pelicula por su id
+PATCH http://localhost:3000/movies/028aa7a9-a796-4dea-8b11-7d72d73a4585
+Content-Type: application/json
+
+{
+    "title": "The Godfather 4",
+    "year": 1973,
+    "director": "Francis Ford Coppola",
+    "duration": 120,
+    "rate": 9.2,
+    "poster": null,
+    "genres": [
+        "Crime",
+        "Drama",
+        "Action",
+        "Romance",
+        "Comedy"
+    ]
+}
+
+### eliminar una pelicula por su id
+DELETE http://localhost:3000/movies/520ae67b-2bdb-4619-a291-e34cddb2a955
+
+
+### obtener todas las peliculas
+GET https://movies-app-production-a1fb.up.railway.app/movies

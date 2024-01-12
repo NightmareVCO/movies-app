@@ -1,21 +1,37 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   InternalServerErrorException,
   Param,
+  ParseUUIDPipe,
+  Patch,
   Post,
   UsePipes,
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { ZodValidationPipe } from 'src/common/pipes/validation.pipe';
-import { createMovieSchema } from './dto/schema/base-movie.schema';
-import { CreateMovieDto } from './dto/create-movie.dto';
+import { CreateMovieDto, combinedSchema } from './dto/create-movie.dto';
 import { to } from 'src/utils/to';
+import { UpdateMovieDto } from './dto/update-movie.dto';
 
 @Controller('movies')
 export class MoviesController {
   constructor(private readonly movieService: MoviesService) {}
+
+  // create a movie
+  @Post()
+  @UsePipes(new ZodValidationPipe(combinedSchema))
+  async create(@Body() createMovieDto: CreateMovieDto) {
+    const [createdMovie, error] = await to(
+      this.movieService.create(createMovieDto),
+    );
+    if (error)
+      throw new InternalServerErrorException(error, 'Error creating movie');
+
+    return this.findOne(createdMovie.id);
+  }
 
   // get all movies
   @Get()
@@ -29,10 +45,11 @@ export class MoviesController {
 
   // get one movie by id
   @Get(':id')
+  @UsePipes(new ParseUUIDPipe())
   async findOne(@Param('id') id: string) {
     const [movie, error] = await to(
       this.movieService.findOne({
-        id: String(id),
+        where: { id: String(id) },
       }),
     );
     if (error)
@@ -41,17 +58,34 @@ export class MoviesController {
     return movie;
   }
 
-  // create a movie
-  @Post()
-  @UsePipes(new ZodValidationPipe(createMovieSchema))
-  async create(@Body() createMovieDto: CreateMovieDto) {
-    const [createdMovie, error] = await to(
-      this.movieService.create(createMovieDto),
+  // update a movie
+  @Patch(':id')
+  async update(
+    @Body(new ZodValidationPipe(combinedSchema)) updateMovieDto: UpdateMovieDto,
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ) {
+    const [updatedMovie, error] = await to(
+      this.movieService.update(updateMovieDto, id),
     );
     if (error)
-      throw new InternalServerErrorException(error, 'Error creating movie');
+      throw new InternalServerErrorException(error, 'Error updating movie');
 
-    return createdMovie;
+    return updatedMovie;
+  }
+
+  // delete a movie
+  @Delete(':id')
+  @UsePipes(new ParseUUIDPipe())
+  async remove(@Param('id') id: string) {
+    const [deletedMovie, error] = await to(
+      this.movieService.remove({
+        where: { id: String(id) },
+      }),
+    );
+    if (error)
+      throw new InternalServerErrorException(error, 'Error deleting movie');
+
+    return deletedMovie;
   }
 }
 

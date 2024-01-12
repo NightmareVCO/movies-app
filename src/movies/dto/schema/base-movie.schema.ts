@@ -25,6 +25,11 @@ const baseMovieSchema = z.object({
       invalid_type_error: 'Duration must be an integer number',
     })
     .int(),
+  poster: z
+    .string()
+    .url({ message: 'Poster must be a valid ULR' })
+    .endsWith('.jpg')
+    .nullable(),
   rate: z
     .number({
       required_error: 'Rate is required',
@@ -37,5 +42,3 @@ const baseMovieSchema = z.object({
 
 export const createMovieSchema = baseMovieSchema.required();
 export const updateMovieSchema = baseMovieSchema.partial();
-
-// poster: z.string().url().endsWith('.jpg').nullable(),

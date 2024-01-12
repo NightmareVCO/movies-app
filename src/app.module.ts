@@ -6,6 +6,7 @@ import { MoviesModule } from './movies/movies.module';
 import configuration from './config/configuration';
 import validation from './config/validation';
 import { PrismaService } from './prisma/prisma.service';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { PrismaService } from './prisma/prisma.service';
       validationSchema: validation,
     }),
     MoviesModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
