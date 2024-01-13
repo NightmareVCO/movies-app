@@ -16,8 +16,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ZodValidationPipe } from 'src/common/pipes/validation.pipe';
 import { createUserSchema } from './dto/schema/base-user.schema';
 import { to } from 'src/utils/to';
-import { findMovieByIdSchema } from 'src/movies/dto/schema/base-movieId.schema';
-
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -29,8 +27,10 @@ export class UsersController {
       this.usersService.create({ data: createUserDto }),
     );
     if (error)
-      throw new InternalServerErrorException(error, 'Error creating user');
-
+      throw new InternalServerErrorException(
+        `Error creating user at controller: ${error}`,
+      );
+    if (createdUser.password) createdUser.password = 'null';
     return createdUser;
   }
 
@@ -38,8 +38,13 @@ export class UsersController {
   async findAll() {
     const [users, error] = await to(this.usersService.findAll({}));
     if (error)
-      throw new InternalServerErrorException(error, 'Error getting users');
+      throw new InternalServerErrorException(
+        `Error getting users at controller: ${error}`,
+      );
 
+    users.forEach((user) => {
+      if (user.password) user.password = 'null';
+    });
     return users;
   }
 
@@ -52,7 +57,12 @@ export class UsersController {
       }),
     );
     if (error)
-      throw new InternalServerErrorException(error, 'Error getting user');
+      throw new InternalServerErrorException(
+        `Error getting user by id at controller: ${id}: ${error}`,
+      );
+    if (user)
+      if (this.usersService.isUser(user))
+        if (user.password) user.password = 'null';
 
     return user;
   }
@@ -69,8 +79,11 @@ export class UsersController {
       }),
     );
     if (error)
-      throw new InternalServerErrorException(error, 'Error updating user');
+      throw new InternalServerErrorException(
+        `Error updating user at controller: ${error}`,
+      );
 
+    if (updatedUser.password) updatedUser.password = 'null';
     return updatedUser;
   }
 
@@ -83,45 +96,47 @@ export class UsersController {
       }),
     );
     if (error)
-      throw new InternalServerErrorException(error, 'Error deleting user');
+      throw new InternalServerErrorException(`Error deleting user: ${error}`);
 
+    if (deletedUser.password) deletedUser.password = 'null';
     return deletedUser;
   }
 
-  @Post(':id/movies')
+  @Post(':userId/movies/:movieId')
   @UsePipes()
-  async addMovie(
-    @Body(new ZodValidationPipe(findMovieByIdSchema)) body: { movieId: string },
-    @Param('id', new ParseUUIDPipe()) userId: string,
+  async addFavoriteMovie(
+    @Param('movieId', new ParseUUIDPipe()) movieId: string,
+    @Param('userId', new ParseUUIDPipe()) userId: string,
   ) {
-    const { movieId } = body;
-
-    const [favoritesUserMovies, error] = await to(
-      this.usersService.addMovie({
+    const [addedMovies, error] = await to(
+      this.usersService.addFavoriteMovie({
         where: { id: String(userId) },
         data: { favorites: { connect: { id: String(movieId) } } },
-        include: { favorites: true },
       }),
     );
     if (error)
-      throw new InternalServerErrorException(error, 'Error adding movie');
+      throw new InternalServerErrorException(
+        `Error adding movie to user at controller: ${error}`,
+      );
 
-    return favoritesUserMovies;
+    return addedMovies.favorites[addedMovies.favorites.length - 1];
   }
 
   //get all movies from a user
   @Get(':id/movies')
   @UsePipes(new ParseUUIDPipe())
-  async getMovies(@Param('id') id: string) {
-    const [favoritesUserMovies, error] = await to(
+  async getFavoritesMovies(@Param('id') id: string) {
+    const [favoritesMovies, error] = await to(
       this.usersService.findOne({
         where: { id: String(id) },
         include: { favorites: true },
       }),
     );
     if (error)
-      throw new InternalServerErrorException(error, 'Error getting user');
+      throw new InternalServerErrorException(
+        `Error getting favorites movies at controller: ${error}`,
+      );
 
-    return favoritesUserMovies;
+    return favoritesMovies;
   }
 }

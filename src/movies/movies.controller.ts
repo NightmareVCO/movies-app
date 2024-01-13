@@ -28,7 +28,9 @@ export class MoviesController {
       this.movieService.create(createMovieDto),
     );
     if (error)
-      throw new InternalServerErrorException(error, 'Error creating movie');
+      throw new InternalServerErrorException(
+        `Error creating movie at controller: ${error}`,
+      );
 
     return this.findOne(createdMovie.id);
   }
@@ -38,7 +40,10 @@ export class MoviesController {
   async findAll() {
     const [movies, error] = await to(this.movieService.findAll({}));
     if (error)
-      throw new InternalServerErrorException(error, 'Error getting movies');
+      throw new InternalServerErrorException(
+        error,
+        'Error getting movies at controller',
+      );
 
     return movies;
   }
@@ -53,7 +58,9 @@ export class MoviesController {
       }),
     );
     if (error)
-      throw new InternalServerErrorException(error, 'Error getting movie');
+      throw new InternalServerErrorException(
+        `Error getting movie at controller: ${error}`,
+      );
 
     return movie;
   }
@@ -68,9 +75,11 @@ export class MoviesController {
       this.movieService.update(updateMovieDto, id),
     );
     if (error)
-      throw new InternalServerErrorException(error, 'Error updating movie');
+      throw new InternalServerErrorException(
+        `Error updating movie at controller: ${error}`,
+      );
 
-    return updatedMovie;
+    return this.findOne(updatedMovie.id);
   }
 
   // delete a movie
@@ -83,7 +92,9 @@ export class MoviesController {
       }),
     );
     if (error)
-      throw new InternalServerErrorException(error, 'Error deleting movie');
+      throw new InternalServerErrorException(
+        `Error deleting movi at controller: ${error}`,
+      );
 
     return deletedMovie;
   }

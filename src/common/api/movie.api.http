@@ -19,10 +19,10 @@ Content-Type: application/json
 }
 
 ### obtener una pelicula por su id
-GET http://localhost:3000/movies/520ae67b-2bdb
+GET http://localhost:3000/movies/40ca6dbf-938b-4d51-add5-b4a6fddc05d9
 
 ### actualizar una pelicula por su id
-PATCH http://localhost:3000/movies/028aa7a9-a796-4dea-8b11-7d72d73a4585
+PATCH http://localhost:3000/movies/40ca6dbf-938b-4d51-add5-b4a6fddc05d9
 Content-Type: application/json
 
 {

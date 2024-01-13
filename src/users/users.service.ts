@@ -1,3 +1,4 @@
+import { BcryptService } from './../auth/bcrypt/bcrypt.service';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { User, Prisma } from '@prisma/client';
@@ -6,17 +7,29 @@ import { UserMoviesInfo } from './dto/type/user-movie.type';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private bcryptService: BcryptService,
+  ) {}
 
   async create(params: { data: Prisma.UserCreateInput }): Promise<User> {
     const { data } = params;
+    const [hashedPassword, errorHashedPassword] = await to(
+      this.bcryptService.createHashedPassword(data.password),
+    );
+    if (errorHashedPassword)
+      throw new Error(
+        `Error hashing password at service: ${String(errorHashedPassword)}`,
+      );
 
+    data.password = hashedPassword;
     const [createdUser, error] = await to(
       this.prisma.user.create({
         data,
       }),
     );
-    if (error) throw new Error(String(error));
+    if (error)
+      throw new Error(`Error creating user at service: ${String(error)}`);
 
     return createdUser;
   }
@@ -39,7 +52,8 @@ export class UsersService {
         orderBy,
       }),
     );
-    if (error) throw new Error(String(error));
+    if (error)
+      throw new Error(`Error getting users at service: ${String(error)}`);
 
     return users;
   }
@@ -53,8 +67,11 @@ export class UsersService {
     const [user, error] = await to(
       this.prisma.user.findUnique({ where, include: { favorites: true } }),
     );
-    if (error) throw new Error(String(error));
-    if (!user) return null;
+    if (error)
+      throw new Error(
+        `Error finding user at service findOne: ${String(error)}`,
+      );
+    if (!user) throw new Error('User not found at service findOne');
 
     return include ? { favorites: user.favorites } : user;
   }
@@ -71,7 +88,8 @@ export class UsersService {
         where,
       }),
     );
-    if (error) throw new Error(String(error));
+    if (error)
+      throw new Error(`Error updating user at service: ${String(error)}`);
 
     return updatedUser;
   }
@@ -84,27 +102,49 @@ export class UsersService {
         where,
       }),
     );
-    if (error) throw new Error(String(error));
+    if (error)
+      throw new Error(`Error deleting user at service: ${String(error)}`);
 
     return deletedUser;
   }
 
-  async addMovie(params: {
+  async addFavoriteMovie(params: {
     where: Prisma.UserWhereUniqueInput;
     data: Prisma.UserUpdateInput;
-    include?: Prisma.UserInclude;
   }): Promise<UserMoviesInfo> {
     const { where, data } = params;
-
-    const [updatedUser, error] = await to(
+    const [userFavoritesMovies, error] = await to(
       this.prisma.user.update({
         data,
         where,
         include: { favorites: true },
       }),
     );
-    if (error) throw new Error(String(error));
+    if (error) throw new Error(`Error adding movie: ${String(error)}`);
 
-    return { favorites: updatedUser.favorites };
+    return { favorites: userFavoritesMovies.favorites };
+  }
+
+  async findOneAndIsUser(params: {
+    where: Prisma.UserWhereUniqueInput;
+    include?: Prisma.UserInclude;
+  }): Promise<User> {
+    const { where, include } = params;
+    const [user, error] = await to(this.findOne({ where, include }));
+    if (error)
+      throw new Error(`Error finding user at findOneIsUser: ${String(error)}`);
+    if (!user) throw new Error('User not found at findOneIsUser/service');
+    if (!this.isUser(user))
+      throw new Error('User not valid type at findOneIsUser/service');
+
+    return user;
+  }
+
+  isUser(user: User | UserMoviesInfo): user is User {
+    if ('email' in user) return true;
+    return false;
   }
 }
+
+// Para hashing de contraseñas: pnpm i bcrypt
+// pnpm i -D @types/bcrypt
