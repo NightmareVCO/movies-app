@@ -8,6 +8,7 @@ import { LocalStrategy } from './strategy/local.strategy';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { UsersModule } from 'src/users/users.module';
 import { BcryptService } from './bcrypt/bcrypt.service';
+import { RefreshJwtStrategy } from './strategy/refreshToken.strategy';
 
 @Module({
   imports: [
@@ -16,7 +17,13 @@ import { BcryptService } from './bcrypt/bcrypt.service';
     PassportModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, BcryptService, LocalStrategy, JwtStrategy],
+  providers: [
+    AuthService,
+    BcryptService,
+    LocalStrategy,
+    JwtStrategy,
+    RefreshJwtStrategy,
+  ],
   exports: [BcryptService],
 })
 export class AuthModule {}

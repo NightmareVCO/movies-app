@@ -15,6 +15,7 @@ import { LocalAuthGuard } from './guard/local-auth.guard';
 import { JwtAuthGuard } from './guard/jtw-auth.guard';
 import { User } from 'src/common/decorators/user.decorator';
 import { to } from 'src/utils/to';
+import { RefreshJwtAuthGuard } from './guard/refresh-jwt-auth.guards';
 
 @Controller('auth')
 export class AuthController {
@@ -37,5 +38,17 @@ export class AuthController {
   @Get('profile')
   getProfile(@User() user: any) {
     return user;
+  }
+
+  @UseGuards(RefreshJwtAuthGuard)
+  @Post('refresh')
+  async refresh(@User() user: any) {
+    const [refreshToken, error] = await to(this.authService.refreshToken(user));
+    if (error)
+      throw new InternalServerErrorException(
+        `Error refreshing token at controller: ${error}`,
+      );
+
+    return refreshToken;
   }
 }
