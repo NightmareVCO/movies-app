@@ -11,6 +11,9 @@ import { AuthModule } from './auth/auth.module';
 import { APP_FILTER } from '@nestjs/core';
 import { UnauthorizedExceptionFilter } from './common/filters/unauthorized-exception.filter';
 import { InternalServerErrorFilter } from './common/filters/internal-server-error.filter';
+// import { RolesGuard } from './common/guard/roles.guard';
+// import { JwtAuthGuard } from './common/guard/jtw-auth.guard';
+// import { LocalAuthGuard } from './common/guard/local-auth.guard';
 
 @Module({
   imports: [

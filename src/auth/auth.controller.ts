@@ -11,19 +11,22 @@ import {
 import { AuthService } from './auth.service';
 import { singInSchema } from './dto/schema/base-singIn.schema';
 import { ZodValidationPipe } from 'src/common/pipes/validation.pipe';
-import { LocalAuthGuard } from './guard/local-auth.guard';
-import { JwtAuthGuard } from './guard/jtw-auth.guard';
+import { LocalAuthGuard } from '../common/guard/local-auth.guard';
+import { JwtAuthGuard } from '../common/guard/jtw-auth.guard';
 import { User } from 'src/common/decorators/user.decorator';
 import { to } from 'src/utils/to';
-import { RefreshJwtAuthGuard } from './guard/refresh-jwt-auth.guards';
+import { RefreshJwtAuthGuard } from '../common/guard/refresh-jwt-auth.guards';
+import { Roles } from 'src/common/decorators/roles.decorators';
+import { Role } from '@prisma/client';
+import { RolesGuard } from 'src/common/guard/roles.guard';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('login')
   @UseGuards(LocalAuthGuard)
   @UsePipes(new ZodValidationPipe(singInSchema))
+  @Post('login')
   async login(@Body() singInDtoType: SingInDtoType) {
     const [token, error] = await to(this.authService.login(singInDtoType));
     if (error)
@@ -37,6 +40,13 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@User() user: any) {
+    return user;
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Get('admin')
+  getAdmin(@User() user: any) {
     return user;
   }
 

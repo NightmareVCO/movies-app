@@ -10,6 +10,35 @@ Content-Type: application/json
     "role": "USER"
 }
 
+### Crear un usuario admin
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "email": "vladimir@outlook.com",
+    "password": "amatista30",
+    "name": "Vladimir Curiel Ovalles",
+    "number": "8290000000",
+    "role": "ADMIN"
+}
+
+### obtener una jwt
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "vladimir@outlook.com",
+    "password": "amatista30"
+}
+
+### entrar a una ruta protegida
+GET http://localhost:3000/auth/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImExMDlmZmZhLTllNGMtNDMyZS05YzdhLTc5ODhlZjBkYmQxMSIsIm5hbWUiOiJWbGFkaW1pciBDdXJpZWwgT3ZhbGxlcyIsImVtYWlsIjoidmxhZGltaXJjdXJpZWxvb3lvQG91dGxvb2suY29tIiwibnVtYmVyIjoiODI5NTMxMzEzMiIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzA1Mjc4MzAyLCJleHAiOjE3MDUyNzkyMDJ9.m5X7vUhZruJIuXkVGrsSQPTHbEEpM2WNuRvx2JAZAlk
+
+### aceder a una ruta de admin
+GET http://localhost:3000/auth/admin
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImExMDlmZmZhLTllNGMtNDMyZS05YzdhLTc5ODhlZjBkYmQxMSIsIm5hbWUiOiJWbGFkaW1pciBDdXJpZWwgT3ZhbGxlcyIsImVtYWlsIjoidmxhZGltaXJjdXJpZWxvb3lvQG91dGxvb2suY29tIiwibnVtYmVyIjoiODI5NTMxMzEzMiIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzA1Mjc4MzAyLCJleHAiOjE3MDUyNzkyMDJ9.m5X7vUhZruJIuXkVGrsSQPTHbEEpM2WNuRvx2JAZAlk
+
 ### Crear un usuario
 POST http://localhost:3000/users
 Content-Type: application/json
@@ -75,3 +104,29 @@ Content-Type: application/json
   "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI2ZmE4ZjIxLTIyYTktNGI4ZS1hYTc1LTFlZjc2MzA2NWFjZSIsIm5hbWUiOiJWbGFkaW1pciBDdXJpZWwgT3ZhbGxlcyIsImVtYWlsIjoidmxhZGltaXJjdXJpZWxvb3lvQG91dGxvb2suY29tIiwibnVtYmVyIjoiODI5NTMxMzEzMiIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzA1MjQ5OTY1LCJleHAiOjE3MDY2MzIzNjV9.LEJ3Wh-Soz46_dXavTHSYqpclLfHSC6F-OJCxiT91jA"
 }
 
+### obtener usuarios de la ddbb real
+GET https://movies-app-production-a6cd.up.railway.app/users
+
+### crear un usuario en la ddbb real
+POST https://movies-app-production-a6cd.up.railway.app/users
+Content-Type: application/json
+
+{
+    "email": "vladimircurielooyo@outlook.com",
+    "password": "amatista",
+    "name": "Vladimir Curiel Ovalles",
+    "number": "8295313132",
+    "role": "USER"
+}
+
+### crear un usuario en la ddbb real
+POST https://movies-app-production-a6cd.up.railway.app/users
+Content-Type: application/json
+
+{
+    "email": "moise@outlook.com",
+    "password": "amatista",
+    "name": "Vladimir Curiel Ovalles",
+    "number": "3453455563",
+    "role": "USER"
+}
